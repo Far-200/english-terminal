@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "english-terminal"
+version = "0.2.0"
+description = "A deterministic, educational filesystem terminal in simple English"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{name = "English Terminal contributors"}]
+keywords = ["cli", "terminal", "education", "filesystem"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+  "Environment :: Console",
+]
+
+[project.scripts]
+english = "english_terminal.cli:main"
+
+[project.optional-dependencies]
+dev = ["ruff>=0.11,<1"]
+
+[tool.setuptools.packages.find]
+include = ["english_terminal*"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
