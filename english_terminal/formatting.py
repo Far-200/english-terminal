@@ -4,6 +4,41 @@ import os
 import sys
 
 
+def clear_screen() -> bool:
+    """Clear a capable terminal, without sending control codes to redirected output."""
+    if not sys.stdout.isatty() or os.environ.get("TERM") == "dumb":
+        return False
+    sequence = "\033[2J\033[3J\033[H"
+    if os.name != "nt":
+        print(sequence, end="", flush=True)
+        return True
+
+    import ctypes
+    import msvcrt
+    from ctypes import wintypes
+
+    kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    kernel32.GetConsoleMode.argtypes = [wintypes.HANDLE, ctypes.POINTER(wintypes.DWORD)]
+    kernel32.GetConsoleMode.restype = wintypes.BOOL
+    kernel32.SetConsoleMode.argtypes = [wintypes.HANDLE, wintypes.DWORD]
+    kernel32.SetConsoleMode.restype = wintypes.BOOL
+    try:
+        handle = msvcrt.get_osfhandle(sys.stdout.fileno())
+    except (OSError, ValueError):
+        return False
+    mode = wintypes.DWORD()
+    if not kernel32.GetConsoleMode(handle, ctypes.byref(mode)):
+        return False
+    # ENABLE_PROCESSED_OUTPUT | ENABLE_VIRTUAL_TERMINAL_PROCESSING
+    if not kernel32.SetConsoleMode(handle, mode.value | 0x0001 | 0x0004):
+        return False
+    try:
+        print(sequence, end="", flush=True)
+    finally:
+        kernel32.SetConsoleMode(handle, mode.value)
+    return True
+
+
 def safe_text(text: str) -> str:
     return "".join(c if (c in "\n\t" or c.isprintable()) else f"\\u{ord(c):04x}" for c in text)
 

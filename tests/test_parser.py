@@ -46,6 +46,22 @@ class ParserTests(unittest.TestCase):
         command = parse('MAKE Folder "My Project"')
         self.assertEqual(command.args, ("My Project",))
 
+    def test_cls_alias(self):
+        for text in ("cls", "CLS", " cls "):
+            with self.subTest(text=text):
+                self.assertEqual(parse(text), parse("clear screen"))
+
+    def test_cls_does_not_match_unrelated_input(self):
+        for text in ("cl", "cls now", "clear", '"cls"'):
+            with self.subTest(text=text), self.assertRaises(ParseError):
+                parse(text)
+        self.assertEqual(parse("make file cls").args, ("cls",))
+
+    def test_cls_in_session_help(self):
+        session_help = help_text().split("Session\n", 1)[1].split("\n\n", 1)[0]
+        self.assertIn("clear screen", session_help)
+        self.assertIn("Alias: cls.", session_help)
+
     def test_to_inside_path(self):
         self.assertEqual(parse('copy "road to home" to "to"').args, ("road to home", "to"))
 

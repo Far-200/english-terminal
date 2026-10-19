@@ -7,7 +7,7 @@ from pathlib import Path
 
 from . import __version__
 from .executor import Session
-from .formatting import emit, error_message, safe_text
+from .formatting import clear_screen, emit, error_message, safe_text
 from .models import Action, TerminalError
 from .native import equivalent
 from .parser import parse
@@ -43,10 +43,8 @@ def run_line(
         if command.action == Action.EXIT:
             return False, 0
         if command.action == Action.CLEAR:
-            if sys.stdout.isatty():
-                print("\033[2J\033[H", end="", flush=True)
-            else:
-                emit("Screen clearing is available in a terminal.")
+            if not clear_screen():
+                emit("Screen clearing is available in a supported terminal.")
         else:
 
             def confirm(prompt: str) -> str:
@@ -113,6 +111,9 @@ def main(argv: list[str] | None = None) -> int:
         except KeyboardInterrupt:
             emit("\nGoodbye.")
             return 130
+        if line.strip().lower() == "fuck off":
+            print("You too, weirdo.")
+            return 0
         if not line.strip():
             continue
         keep_running, code = run_line(line, session, args, interactive=interactive)
