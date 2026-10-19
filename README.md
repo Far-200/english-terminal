@@ -13,6 +13,8 @@ dependencies, v0.2.0 includes a GitHub API integration under active development.
 [GitHub integration](#github-integration) · [Install and run](#install-and-run) ·
 [Tests](#testing) · [Support](SUPPORT.md)
 
+![English Terminal demo](gif/engllish-terminal-demo-explorer-full.gif)
+
 ## A short session
 
 Illustrative Windows session; filenames and release details below are examples,
