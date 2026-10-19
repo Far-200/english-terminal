@@ -85,7 +85,9 @@ class CliTests(unittest.TestCase):
     def test_easter_egg_bypasses_command_processing_after_error(self):
         with (
             tempfile.TemporaryDirectory() as directory,
-            patch("builtins.input", side_effect=["invalid command", "fuck off", "show files"]) as read,
+            patch(
+                "builtins.input", side_effect=["invalid command", "fuck off", "show files"]
+            ) as read,
             patch("english_terminal.cli.run_line", return_value=(True, 1)) as process,
             contextlib.redirect_stdout(io.StringIO()) as output,
         ):
@@ -96,7 +98,14 @@ class CliTests(unittest.TestCase):
             self.assertTrue(output.getvalue().endswith("You too, weirdo.\n"))
 
     def test_easter_egg_similar_phrases_use_normal_processing(self):
-        for phrase in ("fuck", "fuck off!", "please fuck off", "fuck off now", "fuck  off", "fuck\toff"):
+        for phrase in (
+            "fuck",
+            "fuck off!",
+            "please fuck off",
+            "fuck off now",
+            "fuck  off",
+            "fuck\toff",
+        ):
             with (
                 self.subTest(phrase=phrase),
                 tempfile.TemporaryDirectory() as directory,
