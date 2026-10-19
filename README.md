@@ -13,6 +13,8 @@ dependencies, v0.2.0 includes a GitHub API integration under active development.
 [GitHub integration](#github-integration) · [Install and run](#install-and-run) ·
 [Tests](#testing) · [Support](SUPPORT.md)
 
+## Demo
+
 ![English Terminal demo](gif/engllish-terminal-demo-explorer-full.gif)
 
 ## A short session
@@ -47,12 +49,12 @@ and listing behavior may differ from this CLI's behavior. They are never execute
 The integration calls GitHub's REST API through a dedicated Python HTTP client.
 These four exact grammar patterns are supported:
 
-| English command | GitHub REST API | Authentication |
-| --- | --- | --- |
-| `show github repos for <username>` | `GET /users/{username}/repos` | Optional for public repositories |
-| `show github issues in <owner>/<repository>` | `GET /repos/{owner}/{repository}/issues` | Optional for public repositories |
+| English command                                      | GitHub REST API                                   | Authentication                   |
+| ---------------------------------------------------- | ------------------------------------------------- | -------------------------------- |
+| `show github repos for <username>`                   | `GET /users/{username}/repos`                     | Optional for public repositories |
+| `show github issues in <owner>/<repository>`         | `GET /repos/{owner}/{repository}/issues`          | Optional for public repositories |
 | `show latest github release of <owner>/<repository>` | `GET /repos/{owner}/{repository}/releases/latest` | Optional for public repositories |
-| `show my github repos` | `GET /user/repos` | Requires `GITHUB_TOKEN` |
+| `show my github repos`                               | `GET /user/repos`                                 | Requires `GITHUB_TOKEN`          |
 
 - **Repositories:** up to 30, sorted by full name, with stars and language. “My repos”
   means repositories accessible to the account/token, including collaborations and
@@ -191,13 +193,13 @@ as **one argument**, preserving inner quotes for paths with spaces:
 english 'make folder "my project"'
 ```
 
-| Option | Behavior |
-| --- | --- |
-| `--cwd <directory>` | Start in an existing directory |
-| `--native both` | Show both shell dialects; GitHub API hints appear once |
-| `--native off` | Hide shell and API hints |
-| `--dry-run "remove folder demo"` | Preview removal without deleting |
-| `--safety-root <directory>` | Select an existing removal boundary |
+| Option                           | Behavior                                               |
+| -------------------------------- | ------------------------------------------------------ |
+| `--cwd <directory>`              | Start in an existing directory                         |
+| `--native both`                  | Show both shell dialects; GitHub API hints appear once |
+| `--native off`                   | Hide shell and API hints                               |
+| `--dry-run "remove folder demo"` | Preview removal without deleting                       |
+| `--safety-root <directory>`      | Select an existing removal boundary                    |
 
 The prompt shows the current directory name; `where am i` shows its full path.
 Navigation changes only the session, never the parent shell's directory. EOF or
@@ -207,15 +209,15 @@ for interruption. A session retains a nonzero status if an earlier command faile
 
 ## Local commands and safety
 
-| Group | Commands |
-| --- | --- |
-| Navigation | `where am i`, `move into <path>`, `move to <path>`, `move out` |
-| Creating | `make folder <path>`, `make file <path>` |
-| Viewing | `show files`, `show folders`, `show contents of <file>` |
-| Managing | `copy <source> to <destination>`, `move <source> to <destination>`, `rename <source> to <destination>` |
-| Removing | `remove file <path>`, `remove folder <path>` |
-| Session | `help`, `help make folder`, `clear screen`, `exit`, `quit` |
-| Aliases | `list files`, `list folders` |
+| Group      | Commands                                                                                               |
+| ---------- | ------------------------------------------------------------------------------------------------------ |
+| Navigation | `where am i`, `move into <path>`, `move to <path>`, `move out`                                         |
+| Creating   | `make folder <path>`, `make file <path>`                                                               |
+| Viewing    | `show files`, `show folders`, `show contents of <file>`                                                |
+| Managing   | `copy <source> to <destination>`, `move <source> to <destination>`, `rename <source> to <destination>` |
+| Removing   | `remove file <path>`, `remove folder <path>`                                                           |
+| Session    | `help`, `help make folder`, `clear screen`, `exit`, `quit`                                             |
+| Aliases    | `list files`, `list folders`                                                                           |
 
 Creation requires an existing parent. Creation and transfers refuse existing
 destinations. Copy/move handle regular files; destinations are exact new paths,
