@@ -24,9 +24,9 @@ class ClearScreenTests(unittest.TestCase):
         for get_mode, set_mode in ((True, True), (False, True), (True, False)):
             kernel32 = Mock()
 
-            def read_mode(handle, mode):
+            def read_mode(handle, mode, *, _get_mode=get_mode):
                 mode._obj.value = 2
-                return get_mode
+                return _get_mode
 
             kernel32.GetConsoleMode.side_effect = read_mode
             kernel32.SetConsoleMode.return_value = set_mode
