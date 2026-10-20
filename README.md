@@ -15,7 +15,7 @@ dependencies, v0.2.0 includes a GitHub API integration under active development.
 
 ## Demo
 
-![English Terminal demo](gif/engllish-terminal-demo-explorer-full.gif)
+![English Terminal demo](gif/english-terminal-final-full.gif)
 
 ## A short session
 
